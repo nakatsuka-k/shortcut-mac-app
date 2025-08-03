@@ -10,6 +10,7 @@ import SwiftUI
 struct ShortcutEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var store: ShortcutStore
+    @EnvironmentObject private var localization: LocalizationManager
     
     @State private var name: String
     @State private var kind: ShortcutKind
@@ -35,25 +36,25 @@ struct ShortcutEditView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isEditing ? "Edit Shortcut" : "New Shortcut")
+            Text(isEditing ? localization.localizedString("Edit Shortcut") : localization.localizedString("New Shortcut"))
                 .font(.title2)
                 .fontWeight(.bold)
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("Name")
+                Text(localization.localizedString("Name"))
                     .font(.headline)
-                TextField("Shortcut name", text: $name)
+                TextField(localization.localizedString("Shortcut name"), text: $name)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("Type")
+                Text(localization.localizedString("Type"))
                     .font(.headline)
                 Picker("Type", selection: $kind) {
                     ForEach(ShortcutKind.allCases) { kind in
                         HStack {
                             Image(systemName: kind.iconName)
-                            Text(kind.displayName)
+                            Text(kind.displayName(localization: localization))
                         }
                         .tag(kind)
                     }
@@ -74,14 +75,14 @@ struct ShortcutEditView: View {
             Spacer()
             
             HStack {
-                Button("Cancel") {
+                Button(localization.localizedString("Cancel")) {
                     dismiss()
                 }
                 .keyboardShortcut(.escape)
                 
                 Spacer()
                 
-                Button(isEditing ? "Update" : "Create") {
+                Button(isEditing ? localization.localizedString("Update") : localization.localizedString("Create")) {
                     saveShortcut()
                 }
                 .buttonStyle(.borderedProminent)
@@ -96,33 +97,33 @@ struct ShortcutEditView: View {
     private var targetLabel: String {
         switch kind {
         case .shell:
-            return "Command"
+            return localization.localizedString("Command")
         case .app:
-            return "Application"
+            return localization.localizedString("Application")
         case .file:
-            return "File Path or URL"
+            return localization.localizedString("File Path or URL")
         }
     }
     
     private var targetPlaceholder: String {
         switch kind {
         case .shell:
-            return "ls -la"
+            return localization.localizedString("ls -la")
         case .app:
-            return "Terminal or /Applications/Terminal.app"
+            return localization.localizedString("Terminal or /Applications/Terminal.app")
         case .file:
-            return "/path/to/file or https://example.com"
+            return localization.localizedString("/path/to/file or https://example.com")
         }
     }
     
     private var targetHint: String {
         switch kind {
         case .shell:
-            return "Enter a shell command to execute"
+            return localization.localizedString("Enter a shell command to execute")
         case .app:
-            return "Enter app name or full path to .app bundle"
+            return localization.localizedString("Enter app name or full path to .app bundle")
         case .file:
-            return "Enter file path or URL (http/https)"
+            return localization.localizedString("Enter file path or URL (http/https)")
         }
     }
     
@@ -144,4 +145,5 @@ struct ShortcutEditView: View {
 #Preview {
     ShortcutEditView()
         .environmentObject(ShortcutStore())
+        .environmentObject(LocalizationManager())
 }

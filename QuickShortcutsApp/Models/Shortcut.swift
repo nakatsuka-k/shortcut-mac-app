@@ -12,14 +12,14 @@ enum ShortcutKind: String, Codable, CaseIterable, Identifiable {
     
     var id: String { rawValue }
     
-    var displayName: String {
+    func displayName(localization: LocalizationManager) -> String {
         switch self {
         case .shell:
-            return "Shell Command"
+            return localization.localizedString("Shell Command")
         case .app:
-            return "Application"
+            return localization.localizedString("Application")
         case .file:
-            return "File/URL"
+            return localization.localizedString("File/URL")
         }
     }
     

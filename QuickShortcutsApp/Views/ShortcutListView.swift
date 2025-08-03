@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ShortcutListView: View {
     @EnvironmentObject private var store: ShortcutStore
+    @EnvironmentObject private var localization: LocalizationManager
     @State private var showingEditSheet = false
     @State private var editingShortcut: Shortcut?
     
@@ -16,18 +17,20 @@ struct ShortcutListView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Header
             HStack {
-                Text("QuickShortcuts")
+                Text(localization.localizedString("QuickShortcuts"))
                     .font(.title)
                     .fontWeight(.bold)
                 
                 Spacer()
+                
+                LanguageSelectorView()
                 
                 Button(action: addNewShortcut) {
                     Image(systemName: "plus")
                         .font(.title2)
                 }
                 .buttonStyle(.borderless)
-                .help("Add new shortcut")
+                .help(localization.localizedString("Add new shortcut"))
             }
             .padding()
             
@@ -37,10 +40,10 @@ struct ShortcutListView: View {
             if store.shortcuts.isEmpty {
                 VStack {
                     Spacer()
-                    Text("No shortcuts yet")
+                    Text(localization.localizedString("No shortcuts yet"))
                         .font(.headline)
                         .foregroundColor(.secondary)
-                    Text("Click + to add your first shortcut")
+                    Text(localization.localizedString("Click + to add your first shortcut"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
@@ -85,6 +88,7 @@ struct ShortcutListView: View {
 }
 
 struct ShortcutRowView: View {
+    @EnvironmentObject private var localization: LocalizationManager
     let shortcut: Shortcut
     let onEdit: () -> Void
     let onRun: () -> Void
@@ -118,14 +122,14 @@ struct ShortcutRowView: View {
                         .font(.caption)
                 }
                 .buttonStyle(.borderless)
-                .help("Edit shortcut")
+                .help(localization.localizedString("Edit shortcut"))
                 
                 Button(action: onRun) {
                     Image(systemName: "play.fill")
                         .font(.caption)
                 }
                 .buttonStyle(.borderless)
-                .help("Run shortcut")
+                .help(localization.localizedString("Run shortcut"))
             }
         }
         .padding(.vertical, 4)
@@ -136,5 +140,6 @@ struct ShortcutRowView: View {
 #Preview {
     ShortcutListView()
         .environmentObject(ShortcutStore())
+        .environmentObject(LocalizationManager())
         .frame(width: 520, height: 380)
 }

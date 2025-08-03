@@ -41,12 +41,19 @@ The app displays a clean list of shortcuts with:
    cd shortcut-mac-app
    ```
 
-2. Open the project in Xcode:
+2. **Set up the app icon** (optional):
+   If you want to use a custom icon, save your image file in the project root and run:
+   ```bash
+   ./generate_icons.sh your_image.png
+   ```
+   This will automatically generate all required icon sizes and place them in the correct location.
+
+3. Open the project in Xcode:
    ```bash
    open QuickShortcutsApp.xcodeproj
    ```
 
-3. Build and run the project (⌘+R)
+4. Build and run the project (⌘+R)
 
 ### Usage
 
