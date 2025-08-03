@@ -1,17 +1,15 @@
-//
-//  QuickShortcutsAppApp.swift
-//  QuickShortcutsApp
-//
-//  Created by nakatsuka_kirito on 2025/08/03.
-//
-
 import SwiftUI
 
 @main
-struct QuickShortcutsAppApp: App {
+struct QuickShortcutsApp: App {
+    @StateObject private var store = ShortcutStore()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(store)
+                .frame(minWidth: 520, minHeight: 380)
         }
+        .commands { CommandGroup(replacing: .newItem) { } }
     }
 }
