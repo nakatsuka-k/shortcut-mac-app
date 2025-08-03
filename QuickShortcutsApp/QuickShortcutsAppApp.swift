@@ -10,6 +10,9 @@ struct QuickShortcutsApp: App {
                 .environmentObject(store)
                 .frame(minWidth: 520, minHeight: 380)
         }
-        .commands { CommandGroup(replacing: .newItem) { } }
+        .commands { 
+            CommandGroup(replacing: .newItem) { }
+        }
+        .windowToolbarStyle(.unified)
     }
 }
